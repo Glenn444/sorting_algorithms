@@ -3,11 +3,15 @@
 * bubble_sort - func to do bubble sort
 * @array: array of unsorted int
 * @size: size of the elements in the array
+*
+* Return: Nothing!
 **/
 void bubble_sort(int *array, size_t size)
 {
 	size_t i, j;
 
+	if (!array || size < 2)
+		return;
 	for (i = 0; i < size - 1; i++)
 	{
 		for (j = 0; j < size - i - 1; j++)
