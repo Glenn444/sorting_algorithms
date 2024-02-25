@@ -26,5 +26,4 @@ void quick_sort_rec(int *array, int lower, int higher, size_t size);
 int lomuto_partition(int *array, int lower, int higher, size_t size);
 
 
-
 #endif /* SORT_H */
