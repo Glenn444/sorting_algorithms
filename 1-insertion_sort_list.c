@@ -6,35 +6,44 @@
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *current;
+	bool flag = false;
+	listint_t *tmp = NULL, *aux = NULL;
 
-	if (list == NULL || *list == NULL || (*list)->next == NULL)
+	if (!list || !(*list) || !(*list)->next)
 		return;
-	current = (*list)->next;
-	while (current != NULL)
+
+	tmp = *list;
+	while (tmp->next)
 	{
-		listint_t *tmp = current->next;
-		listint_t *sorted = current->prev;
-
-		while (sorted != NULL && sorted->n > current->n)
+		if (tmp->n > tmp->next->n)
 		{
-			sorted->next = current->next;
-
-			if (current->next != NULL)
-				current->next->prev = sorted;
-
-			current->prev = sorted->prev;
-			current->next = sorted;
-
-			if (sorted->prev != NULL)
-				sorted->prev->next = current;
+			tmp->next->prev = tmp->prev;
+			if (tmp->next->prev)
+				tmp->prev->next = tmp->next;
 			else
-				*list = current;
+				*list = tmp->next;
 
-			sorted->prev = current;
-			sorted = current->prev;
+			tmp->prev = tmp->next;
+			tmp->next = tmp->next->next;
+			tmp->prev->next = tmp;
+			if (tmp->next)
+				tmp->next->prev = tmp;
+
+			tmp = tmp->prev;
 			print_list(*list);
+
+			if (tmp->prev && tmp->prev->n > tmp->n)
+			{
+				if (!flag)
+					aux = tmp->next;
+				flag = true;
+				tmp = tmp->prev;
+				continue;
+			}
 		}
-		current = tmp;
+		if (!flag)
+			tmp = tmp->next;
+		else
+			tmp = aux, flag = false;
 	}
 }
